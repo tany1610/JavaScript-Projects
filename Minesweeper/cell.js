@@ -6,7 +6,7 @@ function cell(i, j, w){
  this.w = w;
  this.marked = false;
  this.revealed = false;
- if (random(1) < 0.2){
+ if (random(1) < 0.1){
   this.bomb = true;
  } else {
   this.bomb = false;
@@ -15,14 +15,16 @@ function cell(i, j, w){
  
   this.mark = function(){
     if (this.marked){
-      stroke(0);
-      fill(130,0,0);
-      ellipse(this.x + w/2, this.y + w/2, this.w/2, this.w/2);
+      stroke(255);
+      fill(255);
+      ellipse(this.x + this.w/2, this.y + this.w/2, this.w/2, this.w/2);
+      console.log("marking" + this.x + this.y);
     }
     else{
       noStroke();
       noFill(0);
-      ellipse(this.x + w/2, this.y + w/2, this.w/2, this.w/2);
+      ellipse(this.x + this.w/2, this.y + this.w/2, this.w/2, this.w/2);
+      console.log("unmarking");
     }
   }
  
@@ -30,12 +32,12 @@ function cell(i, j, w){
  stroke(0);
  fill(100);
  rect(this.x, this.y, this.w, this.w);
- if (this.bomb && this.revealed){
+ if (this.bomb && this.revealed && !this.marked){
   stroke(0);
   fill(155);
   ellipse(this.x + this.w / 2, this.y + this.w / 2, this.w/2, this.w/2);
-  }
-  else if (!this.bomb && this.revealed){
+ }
+  else if (!this.bomb && this.revealed && !this.marked){
    stroke(0);
    fill(180);
    rect(this.x, this.y, this.w, this.w);

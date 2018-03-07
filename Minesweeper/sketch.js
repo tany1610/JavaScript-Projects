@@ -39,11 +39,10 @@ function checkIfWon(){
          || (current.bomb && current.marked && !solved.includes(current))
         || current.bomb && !current.revealed && !solved.includes(current)){
       solved.push(current);
-       console.log(solved.length);
     }
    }
   }
-  if (solved.length == rows * cols){
+  if (solved.length == rows * cols && !lost){
     console.log("CONGRATS, YOU WON!");
     noLoop();
   }
@@ -63,7 +62,7 @@ function endGame(){
     grid[i][j].reveal();
    }
  }
-  if (lost == false){
+  if (lost){
   console.log("YOU LOST! TRY AGAIN!");
   noLoop();
   }
@@ -78,7 +77,7 @@ function mousePressed(){
          current.reveal();
          current.marked = false;
          if (current.bomb){
-          lost = true;
+         lost = true;
          endGame();
       }
      }   
