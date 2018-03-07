@@ -4,6 +4,8 @@ var cols = 10;
 var w = 30;
 var solved = [];
 var lost = false;
+//choose difficulty
+var difficulty = 0.1;
 
 function setup() {
   createCanvas(rows * w,cols * w);
@@ -13,7 +15,11 @@ function setup() {
    for (j = 0; j < cols; j++){
     grid[i][j] = new cell(i, j, w);
   }
+    
  }
+  
+  console.log('choose diffucylty between 0.1 and 0.9');
+  console.log('mark and unmark cells with MiddleMouseKey');
  
  for (i = 0; i < rows; i++){
    for (j = 0; j < cols; j++){

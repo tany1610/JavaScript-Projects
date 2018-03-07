@@ -6,7 +6,7 @@ function cell(i, j, w){
  this.w = w;
  this.marked = false;
  this.revealed = false;
- if (random(1) < 0.1){
+ if (random(1) < difficulty){
   this.bomb = true;
  } else {
   this.bomb = false;
@@ -15,23 +15,25 @@ function cell(i, j, w){
  
   this.mark = function(){
     if (this.marked){
-      stroke(255);
-      fill(255);
-      ellipse(this.x + this.w/2, this.y + this.w/2, this.w/2, this.w/2);
-      console.log("marking" + this.x + this.y);
+      noStroke();
+      fill(0);
+      textSize(25);
+      textAlign(CENTER);
+      text('?', this.x + this.w/2, this.y + this.w - 5);
     }
     else{
       noStroke();
       noFill(0);
       ellipse(this.x + this.w/2, this.y + this.w/2, this.w/2, this.w/2);
-      console.log("unmarking");
     }
   }
  
  this.show = function(){
- stroke(0);
- fill(100);
- rect(this.x, this.y, this.w, this.w);
+   if(!this.marked){
+     stroke(0);
+     fill(100);
+     rect(this.x, this.y, this.w, this.w);
+   }
  if (this.bomb && this.revealed && !this.marked){
   stroke(0);
   fill(155);
