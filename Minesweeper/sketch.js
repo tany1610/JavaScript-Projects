@@ -1,10 +1,12 @@
 var grid;
-var rows = 20;
-var cols = 20;
-var w = 40;
+var rows = 10;
+var cols = 10;
+var w = 30;
+var solved = [];
+var lost = false;
 
 function setup() {
-  createCanvas(401,401);
+  createCanvas(rows * w,cols * w);
   background(255);
   grid = createGrid(rows,cols);
   for (i = 0; i < rows; i++){
@@ -26,6 +28,25 @@ function draw() {
     grid[i][j].show();
    }
  }
+  checkIfWon();
+}
+
+function checkIfWon(){
+  for(var i = 0; i < rows; i ++){
+   for(var j = 0; j < cols; j++){
+    var current = grid[i][j]; 
+     if ((current.revealed && !current.bomb && !solved.includes(current)) 
+         || (current.bomb && current.marked && !solved.includes(current))
+        || current.bomb && !current.revealed && !solved.includes(current)){
+      solved.push(current);
+       console.log(solved.length);
+    }
+   }
+  }
+  if (solved.length == rows * cols){
+    console.log("CONGRATS, YOU WON!");
+    noLoop();
+  }
 }
 
 function createGrid(rows,cols){
@@ -42,18 +63,36 @@ function endGame(){
     grid[i][j].reveal();
    }
  }
+  if (lost == false){
+  console.log("YOU LOST! TRY AGAIN!");
+  noLoop();
+  }
 }
 
 function mousePressed(){
  for (i = 0; i < rows; i++){
    for (j = 0; j < cols; j++){
     var current = grid[i][j];
-    if (mouseX >= current.x && mouseX < current.x + w && mouseY >= current.y && mouseY < current.y + w){
-     current.reveal();
-     if (current.bomb){
-      endGame();
-     }
+     if (mouseButton === LEFT){
+       if (mouseX >= current.x && mouseX < current.x + w && mouseY >= current.y && mouseY < current.y + w){
+         current.reveal();
+         current.marked = false;
+         if (current.bomb){
+          lost = true;
+         endGame();
+      }
+     }   
     }
+     if (mouseButton === CENTER){
+       if (mouseX >= current.x && mouseX < current.x + w && mouseY >= current.y && mouseY < current.y + w && !current.marked){
+         current.marked = true;
+         current.mark();
+       }
+       else if (mouseX >= current.x && mouseX < current.x + w && mouseY >= current.y && mouseY < current.y + w && current.marked){
+         current.marked = false;
+         current.mark();
+       }
+     }
    }
   }
 }

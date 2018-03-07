@@ -3,7 +3,8 @@ function cell(i, j, w){
  this.y = j * w;
  this.i = i;
  this.j = j;
- this.w = w
+ this.w = w;
+ this.marked = false;
  this.revealed = false;
  if (random(1) < 0.2){
   this.bomb = true;
@@ -12,15 +13,27 @@ function cell(i, j, w){
  }
  this.bombsCount = 0;
  
+  this.mark = function(){
+    if (this.marked){
+      stroke(0);
+      fill(130,0,0);
+      ellipse(this.x + w/2, this.y + w/2, this.w/2, this.w/2);
+    }
+    else{
+      noStroke();
+      noFill(0);
+      ellipse(this.x + w/2, this.y + w/2, this.w/2, this.w/2);
+    }
+  }
  
  this.show = function(){
  stroke(0);
- noFill();
+ fill(100);
  rect(this.x, this.y, this.w, this.w);
  if (this.bomb && this.revealed){
   stroke(0);
   fill(155);
-  ellipse(this.x + this.w / 2, this.y + this.w / 2, 20, 20);
+  ellipse(this.x + this.w / 2, this.y + this.w / 2, this.w/2, this.w/2);
   }
   else if (!this.bomb && this.revealed){
    stroke(0);
@@ -30,7 +43,7 @@ function cell(i, j, w){
    textSize(25);
    fill(0);
    if (this.bombsCount > 0){
-    text(this.bombsCount, this.x + this.w / 2, this.y + this.w * 0.7);
+    text(this.bombsCount, this.x + this.w / 2, this.y + this.w * 0.8);
    }
   }
  }
@@ -78,12 +91,3 @@ function cell(i, j, w){
   this.bombsCount = total;
  }
 }
-
-
-
-
-
-
-
-
-
