@@ -11,8 +11,8 @@ var timeStart;
 var timeEnd;
 
 function setup() {  
-  frameRate(60);// <<< CHANGE SPEED
-  createCanvas(400, 400);
+  frameRate(30);// <<< CHANGE SPEED
+  createCanvas(500, 500);
   timeStart = performance.now();
   w = width / cols;
   
@@ -48,13 +48,13 @@ function setup() {
 function draw() {
 
   if (openSet.length > 0) {
-    var winner = 0;
+    var bestIndex = 0;
     for (var i = 0; i < openSet.length; i++) {
-      if (openSet[i].f < openSet[winner].f) {
-        winner = i;
+      if (openSet[i].h < openSet[bestIndex].h) {
+        bestIndex = i;
       }
     }
-    var current = openSet[winner];
+    var current = openSet[bestIndex];
     
     if (current === end) {
       noLoop();
@@ -108,17 +108,21 @@ function draw() {
        grid[i][j].show();
       }
       else{
-        grid[i][j].show(color(249, 100, 252));
+        grid[i][j].show(color(255, 242, 0));
       }
     }
   }
 
   for (var i = 0; i < closedSet.length; i++) {
-    closedSet[i].show(color(250, 0, 0));
+    if (closedSet[i] != end){
+     closedSet[i].show(color(250, 0, 0));
+    }
   }
 
   for (var i = 0; i < openSet.length; i++) {
-    openSet[i].show(color(0, 255, 0));
+    if (openSet[i] != end){
+     openSet[i].show(color(0, 255, 0));
+    }
   }
 
   path = [];
